@@ -200,6 +200,8 @@
   $("browseNovels").addEventListener("click", () => {
     showHome();
     $("biblioteca").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+    // Put keyboard focus on the first novel card after moving to the library.
+    window.setTimeout(() => $("homeNovelList")?.querySelector("button")?.focus({ preventScroll: true }), 250);
   });
   $("openIndex").addEventListener("click", openDrawer);
   $("readerIndex").addEventListener("click", openDrawer);
