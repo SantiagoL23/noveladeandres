@@ -86,6 +86,37 @@
     closeDrawer();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
+  function renderHomeChapters() {
+    const list = $("homeChapterList");
+    if (!list) return;
+    list.replaceChildren();
+    chapters.forEach((chapter, i) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "home-chapter-card glass";
+      const number = document.createElement("span");
+      number.className = "home-chapter-number";
+      number.textContent = String(chapter.id).padStart(2, "0");
+      const copy = document.createElement("span");
+      copy.className = "home-chapter-copy";
+      const kicker = document.createElement("small");
+      kicker.textContent = "CAPÍTULO " + String(chapter.id).padStart(2, "0");
+      const title = document.createElement("strong");
+      title.textContent = chapter.title;
+      const excerpt = document.createElement("span");
+      excerpt.className = "home-chapter-excerpt";
+      const firstText = (chapter.paragraphs || []).find(p => p && p.trim());
+      excerpt.textContent = firstText || "Abrir capítulo y comenzar a leer.";
+      const arrow = document.createElement("span");
+      arrow.className = "home-chapter-arrow";
+      arrow.textContent = "↗";
+      copy.append(kicker, title, excerpt);
+      button.append(number, copy, arrow);
+      button.addEventListener("click", () => showReader(i));
+      list.appendChild(button);
+    });
+  }
+
   function renderIndex() {
     const list = $("chapterList"); list.replaceChildren();
     chapters.forEach((chapter, i) => {
@@ -111,7 +142,6 @@
     const idx = Number.isInteger(saved.chapterIndex) ? saved.chapterIndex : 0;
     showReader(Math.max(0, Math.min(idx, chapters.length - 1)), idx === saved.chapterIndex && Number.isFinite(saved.scrollY));
   });
-  $("chapterCardButton").addEventListener("click", () => showReader(0));
   $("browseChapters").addEventListener("click", openDrawer);
   $("openIndex").addEventListener("click", openDrawer);
   $("readerIndex").addEventListener("click", openDrawer);
@@ -136,6 +166,8 @@
   state.wide = Boolean(saved.wide);
   setTheme(saved.theme === "light" ? "light" : "dark");
   renderIndex();
+  renderHomeChapters();
+  $("chapterCount").textContent = chapters.length + (chapters.length === 1 ? " capítulo disponible" : " capítulos disponibles");
   if (saved.chapterIndex !== undefined) {
     // Keep the landing page as the initial view; the saved position is restored when the reader opens.
     save({ chapterIndex: Math.max(0, Math.min(Number(saved.chapterIndex) || 0, chapters.length - 1)) });
