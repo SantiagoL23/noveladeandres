@@ -1,6 +1,8 @@
 (() => {
   "use strict";
-  const chapters = Array.isArray(window.NOVEL_CHAPTERS) ? window.NOVEL_CHAPTERS : [];
+  const novels = Array.isArray(window.NOVELS) ? window.NOVELS : [];
+  let activeNovelIndex = 0;
+  let chapters = novels[0]?.chapters || [];
   const $ = (id) => document.getElementById(id);
   const state = { chapterIndex: 0, fontSize: 19, wide: false, toastTimer: null };
   const STORAGE_KEY = "entrePaginas.reader.v1";
@@ -14,7 +16,7 @@
   const content = $("chapterContent");
 
   function save(extra = {}) {
-    const payload = { ...saved, chapterIndex: state.chapterIndex, fontSize: state.fontSize, wide: state.wide, ...extra };
+    const payload = { ...saved, activeNovelIndex, chapterIndex: state.chapterIndex, fontSize: state.fontSize, wide: state.wide, ...extra };
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(payload)); saved = payload; } catch (_) {}
   }
   function toast(message) {
@@ -65,7 +67,7 @@
     $("previousChapter").querySelector("strong").textContent = state.chapterIndex === 0 ? "Primer capítulo" : chapters[state.chapterIndex - 1].title;
     $("nextChapter").disabled = state.chapterIndex >= chapters.length - 1;
     $("nextChapter").querySelector("strong").textContent = state.chapterIndex >= chapters.length - 1 ? "Próximamente" : chapters[state.chapterIndex + 1].title;
-    $("chapterCount").textContent = chapters.length + (chapters.length === 1 ? " capítulo disponible" : " capítulos disponibles");
+    $("activeNovelCount").textContent = chapters.length + (chapters.length === 1 ? " capítulo" : " capítulos");
     renderIndex();
     document.documentElement.style.setProperty("--reading-size", state.fontSize + "px");
     $("readingColumn").classList.toggle("wide", state.wide);
@@ -85,6 +87,48 @@
     homeSections.forEach(s => s.classList.remove("hidden"));
     closeDrawer();
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  function selectNovel(index) {
+    activeNovelIndex = Math.max(0, Math.min(index, novels.length - 1));
+    chapters = novels[activeNovelIndex]?.chapters || [];
+    state.chapterIndex = 0;
+    const novel = novels[activeNovelIndex];
+    $("activeNovelTitle").textContent = novel?.title || "Novela";
+    $("activeNovelCount").textContent = chapters.length + (chapters.length === 1 ? " capítulo" : " capítulos");
+    $("coverTitle").innerHTML = activeNovelIndex === 1 ? "Pelusa y las<br><i>entidades</i>" : "El romance BL<br><i>de Germán</i>";
+    $("chapterCount").textContent = novels.length + (novels.length === 1 ? " novela disponible" : " novelas disponibles");
+    renderHomeNovels();
+    renderHomeChapters();
+    renderIndex();
+    save({ activeNovelIndex, chapterIndex: 0, scrollY: 0 });
+  }
+  function renderHomeNovels() {
+    const list = $("homeNovelList");
+    if (!list) return;
+    list.replaceChildren();
+    novels.forEach((novel, i) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "home-novel-card glass" + (i === activeNovelIndex ? " active" : "");
+      const icon = document.createElement("span");
+      icon.className = "home-novel-symbol";
+      icon.textContent = i === 1 ? "☾" : "✦";
+      const copy = document.createElement("span");
+      copy.className = "home-novel-copy";
+      const kicker = document.createElement("small");
+      kicker.textContent = "NOVELA · " + String(novel.chapters.length).padStart(2, "0") + (novel.chapters.length === 1 ? " CAPÍTULO" : " CAPÍTULOS");
+      const title = document.createElement("strong");
+      title.textContent = novel.title;
+      const description = document.createElement("span");
+      description.textContent = novel.description || "Una historia por descubrir.";
+      copy.append(kicker, title, description);
+      const mark = document.createElement("span");
+      mark.className = "home-novel-check";
+      mark.textContent = i === activeNovelIndex ? "✓" : "↗";
+      button.append(icon, copy, mark);
+      button.addEventListener("click", () => selectNovel(i));
+      list.appendChild(button);
+    });
   }
   function renderHomeChapters() {
     const list = $("homeChapterList");
@@ -162,12 +206,13 @@
     if (event.key === "ArrowRight" && !reader.classList.contains("hidden") && event.altKey && state.chapterIndex < chapters.length - 1) renderChapter(state.chapterIndex + 1);
   });
 
+  activeNovelIndex = Math.max(0, Math.min(Number(saved.activeNovelIndex) || 0, novels.length - 1));
+  chapters = novels[activeNovelIndex]?.chapters || [];
   state.fontSize = Math.max(16, Math.min(26, Number(saved.fontSize) || 19));
   state.wide = Boolean(saved.wide);
   setTheme(saved.theme === "light" ? "light" : "dark");
   renderIndex();
-  renderHomeChapters();
-  $("chapterCount").textContent = chapters.length + (chapters.length === 1 ? " capítulo disponible" : " capítulos disponibles");
+  selectNovel(activeNovelIndex);
   if (saved.chapterIndex !== undefined) {
     // Keep the landing page as the initial view; the saved position is restored when the reader opens.
     save({ chapterIndex: Math.max(0, Math.min(Number(saved.chapterIndex) || 0, chapters.length - 1)) });

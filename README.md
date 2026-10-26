@@ -46,3 +46,12 @@ El progreso se guarda localmente en el navegador del dispositivo. No se sincroni
 
 
 Versión integrada: incluye los capítulos 1, 2, 3 y 4.
+
+
+## Añadir otra novela
+
+El catálogo se define en `chapters.js` mediante `window.NOVELS`. Cada novela tiene `id`, `title`, `description` y una lista `chapters`. Cada capítulo lleva `id`, `title` y `paragraphs` (un arreglo de párrafos). Para sumar una novela, añade otro objeto dentro de `window.NOVELS`; la biblioteca, las tarjetas de capítulos y el índice se generan automáticamente.
+
+Actualmente incluye:
+- **El romance BL de Germán... Con harem!** — capítulos 1 al 4.
+- **Pelusa y las entidades** — capítulo 1, «Pelusa... Debes temer?».
