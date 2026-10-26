@@ -46,6 +46,7 @@
     const p = percentRead();
     $("progressBar").style.width = p + "%";
     $("progressPercent").textContent = p + "%";
+    floatingBar.setAttribute("aria-valuenow", String(p));
     $("overallBar").style.width = p + "%";
     $("overallProgress").textContent = p + "%";
     save({ scrollY: window.scrollY, progress: p });
@@ -85,6 +86,7 @@
   function showReader(index = state.chapterIndex, restorePosition = false) {
     homeSections.forEach(s => s.classList.add("hidden"));
     reader.classList.remove("hidden");
+    document.body.classList.add("reading-mode");
     floatingBar.setAttribute("aria-hidden", "false");
     floatingBar.classList.remove("compact");
     floatingBar.classList.add("expanded");
@@ -94,6 +96,7 @@
   }
   function showHome() {
     reader.classList.add("hidden");
+    document.body.classList.remove("reading-mode");
     floatingBar.setAttribute("aria-hidden", "true");
     floatingBar.classList.remove("compact", "expanded");
     homeSections.forEach(s => s.classList.remove("hidden"));
