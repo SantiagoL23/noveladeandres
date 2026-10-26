@@ -43,3 +43,6 @@ Cada elemento de `paragraphs` se muestra como un párrafo separado. El texto del
 ## Nota sobre el progreso
 
 El progreso se guarda localmente en el navegador del dispositivo. No se sincroniza entre dispositivos ni navegadores. La barra representa el avance de desplazamiento dentro de la vista del capítulo.
+
+
+Versión integrada: incluye los capítulos 1, 2, 3 y 4.
