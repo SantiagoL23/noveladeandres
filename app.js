@@ -95,7 +95,7 @@
     const novel = novels[activeNovelIndex];
     $("activeNovelTitle").textContent = novel?.title || "Novela";
     $("activeNovelCount").textContent = chapters.length + (chapters.length === 1 ? " capítulo" : " capítulos");
-    $("coverTitle").innerHTML = activeNovelIndex === 1 ? "Pelusa y las<br><i>entidades</i>" : "El romance BL<br><i>de Germán</i>";
+    $("coverTitle").textContent = novel?.title || "Las novelas de Andres";
     $("chapterCount").textContent = novels.length + (novels.length === 1 ? " novela disponible" : " novelas disponibles");
     renderHomeNovels();
     renderHomeChapters();
@@ -126,7 +126,7 @@
       mark.className = "home-novel-check";
       mark.textContent = i === activeNovelIndex ? "✓" : "↗";
       button.append(icon, copy, mark);
-      button.addEventListener("click", () => selectNovel(i));
+      button.addEventListener("click", () => { selectNovel(i); showReader(0); });
       list.appendChild(button);
     });
   }

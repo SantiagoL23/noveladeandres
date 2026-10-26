@@ -1,4 +1,4 @@
-# Entre páginas — web de lectura
+# Las novelas de Andres — web de lectura
 
 Una web estática en español para publicar una novela por capítulos. Diseñada con una estética editorial oscura, acentos suaves y paneles Liquid Glass discretos.
 
