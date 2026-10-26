@@ -33,9 +33,13 @@
   }
   function activeChapter() { return chapters[state.chapterIndex]; }
   function percentRead() {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
+    // Measure progress against the reader, not the whole document or landing page.
+    const readerTop = reader.getBoundingClientRect().top + window.scrollY;
+    const readerHeight = reader.scrollHeight;
+    const max = readerHeight - window.innerHeight;
     if (max <= 0) return 100;
-    return Math.max(0, Math.min(100, Math.round((window.scrollY / max) * 100)));
+    const withinReader = window.scrollY - readerTop;
+    return Math.max(0, Math.min(100, Math.round((withinReader / max) * 100)));
   }
   function updateProgress() {
     if (reader.classList.contains("hidden")) return;
@@ -81,6 +85,7 @@
   function showReader(index = state.chapterIndex, restorePosition = false) {
     homeSections.forEach(s => s.classList.add("hidden"));
     reader.classList.remove("hidden");
+    floatingBar.setAttribute("aria-hidden", "false");
     floatingBar.classList.remove("compact");
     floatingBar.classList.add("expanded");
     lastScrollY = window.scrollY;
@@ -89,6 +94,7 @@
   }
   function showHome() {
     reader.classList.add("hidden");
+    floatingBar.setAttribute("aria-hidden", "true");
     floatingBar.classList.remove("compact", "expanded");
     homeSections.forEach(s => s.classList.remove("hidden"));
     closeDrawer();
@@ -213,7 +219,7 @@
   $("readerIndex").addEventListener("click", openDrawer);
   $("closeIndex").addEventListener("click", closeDrawer);
   backdrop.addEventListener("click", closeDrawer);
-  $("backHome").addEventListener("click", showHome);
+  $("backHome")?.addEventListener("click", showHome);
   $("previousChapter").addEventListener("click", () => { if (state.chapterIndex > 0) renderChapter(state.chapterIndex - 1); });
   $("nextChapter").addEventListener("click", () => { if (state.chapterIndex < chapters.length - 1) renderChapter(state.chapterIndex + 1); else toast("Has llegado al capítulo disponible más reciente."); });
   $("fontDown").addEventListener("click", () => { state.fontSize = Math.max(16, state.fontSize - 1); document.documentElement.style.setProperty("--reading-size", state.fontSize + "px"); save({ fontSize: state.fontSize }); toast("Tamaño de letra: " + state.fontSize + " px"); });
@@ -223,8 +229,8 @@
   window.addEventListener("scroll", () => {
     const currentY = window.scrollY;
     const delta = currentY - lastScrollY;
-    if (!reader.classList.contains("hidden") && Math.abs(delta) > 3) {
-      if (delta > 0 && currentY > 100) {
+    if (!reader.classList.contains("hidden") && !drawer.classList.contains("open") && Math.abs(delta) > 4) {
+      if (delta > 0 && currentY > 80) {
         floatingBar.classList.add("compact");
         floatingBar.classList.remove("expanded");
       } else if (delta < 0) {

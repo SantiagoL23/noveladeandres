@@ -72,7 +72,9 @@
     </section>
 
     <section class="reader page-view hidden" id="reader" aria-labelledby="readerTitle">
-      <div class="reader-toolbar reader-toolbar-spacer" aria-hidden="true"></div>
+      <div class="reader-topline">
+        <button class="back-link" id="backHome" type="button"><span aria-hidden="true">←</span> Volver a la biblioteca</button>
+      </div>
       <article class="reading-column" id="readingColumn">
         <header class="chapter-heading">
           <p class="eyebrow">CAPÍTULO <span id="chapterNumber">01</span></p>
@@ -86,10 +88,7 @@
         </nav>
         <p class="end-note">Has llegado al final de este capítulo. Tómate tu tiempo. <span>✦</span></p>
       </article>
-    </section>
-  </main>
-
-  <nav class="reader-floating-bar" id="readerFloatingBar" aria-label="Controles de lectura">
+      <nav class="reader-floating-bar" id="readerFloatingBar" aria-label="Controles de lectura" aria-hidden="true">
     <button class="floating-tool" id="widthToggle" type="button" title="Ampliar o reducir el ancho de lectura" aria-label="Ampliar o reducir el ancho de lectura"><span class="floating-icon">↔</span><span class="floating-label">Ancho</span></button>
     <button class="floating-tool" id="fontDown" type="button" title="Achicar letra" aria-label="Achicar letra"><span class="floating-icon">A−</span><span class="floating-label">Letra</span></button>
     <button class="floating-tool" id="fontUp" type="button" title="Agrandar letra" aria-label="Agrandar letra"><span class="floating-icon">A+</span><span class="floating-label">Letra</span></button>
@@ -98,7 +97,9 @@
       <div class="floating-progress-label"><span id="progressChapter">CAP. 01</span><strong id="progressPercent">0%</strong></div>
       <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
     </div>
-  </nav>
+      </nav>
+    </section>
+  </main>
   <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
   <aside class="chapter-drawer glass" id="chapterDrawer" aria-labelledby="drawerTitle" aria-hidden="true">
     <div class="drawer-head"><div><p class="eyebrow">TU RECORRIDO</p><h2 id="drawerTitle">Índice</h2></div><button class="icon-button" id="closeIndex" type="button" aria-label="Cerrar índice">×</button></div>
