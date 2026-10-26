@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#10131d">
-  <meta name="description" content="AnimeUruguay: lee novelas por capítulos a tu ritmo.">
-  <title>AnimeUruguay</title>
+  <meta name="description" content="Una experiencia de lectura inmersiva para novelas por capítulos.">
+  <title>Entre páginas — Lectura</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600&display=swap" rel="stylesheet">
@@ -15,27 +15,73 @@
   <div class="ambient ambient-one" aria-hidden="true"></div>
   <div class="ambient ambient-two" aria-hidden="true"></div>
   <header class="topbar glass">
-    <a class="brand" href="#inicio" aria-label="AnimeUruguay, inicio">
-      <span class="brand-mark" aria-hidden="true">A</span><span>AnimeUruguay</span>
+    <a class="brand" href="#inicio" aria-label="Entre páginas, inicio">
+      <span class="brand-mark" aria-hidden="true">e.</span><span>entre páginas</span>
     </a>
     <nav class="top-actions" aria-label="Acciones principales">
+      <button class="icon-button" id="themeToggle" type="button" aria-label="Cambiar tema" title="Cambiar tema"><span id="themeIcon">☼</span></button>
       <button class="icon-button" id="openIndex" type="button" aria-label="Abrir índice de capítulos" title="Índice de capítulos">☷</button>
+      <a class="top-link" href="#inicio">Inicio</a>
     </nav>
   </header>
 
   <main id="app">
-    <section class="home-chapters page-view" id="inicio" aria-labelledby="homeTitle">
-      <div class="home-heading">
-        <p class="eyebrow"><span class="eyebrow-dot"></span> BIBLIOTECA</p>
-        <h1 id="homeTitle">Capítulos</h1>
+    <section class="hero page-view" id="inicio">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-dot"></span> TU PRÓXIMA HISTORIA</p>
+        <h1>Un mundo<br><em>entre páginas.</em></h1>
+        <p class="hero-description">Un espacio para bajar el ritmo, dejar afuera el ruido y perderse un rato en una buena historia.</p>
+        <div class="hero-buttons">
+          <button class="primary-button" id="startReading" type="button">Comenzar a leer <span aria-hidden="true">↗</span></button>
+          <button class="secondary-button" id="browseChapters" type="button">Explorar capítulos</button>
+        </div>
+        <div class="hero-meta">
+          <span><span class="meta-icon">◷</span> Lectura a tu ritmo</span>
+          <span><span class="meta-icon">✦</span> Tu progreso se guarda</span>
+        </div>
       </div>
-      <div class="home-chapter-list" id="homeChapterList" aria-label="Capítulos disponibles"></div>
+      <div class="cover-stage" aria-label="Presentación tipográfica de la novela">
+        <div class="cover-glow"></div>
+        <div class="cover-card">
+          <div class="cover-topline"><span>UNA NOVELA</span><span>01 / ∞</span></div>
+          <div class="cover-art" aria-hidden="true">
+            <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="orbit orbit-c"></div>
+            <div class="moon"></div><div class="cover-spark spark-a">✳</div><div class="cover-spark spark-b">✦</div>
+          </div>
+          <div class="cover-title">Un despertar<br><i>de pesadilla</i></div>
+          <div class="cover-bottom"><span>CAPÍTULO UNO</span><span>LEE · SIENTE · VUELVE</span></div>
+        </div>
+        <div class="floating-note note-top glass"><span class="note-dot"></span><span>Tu próxima aventura<br><strong>empieza aquí</strong></span></div>
+        <div class="floating-note note-bottom glass"><span class="note-symbol">↗</span><span><strong>Lectura inmersiva</strong><br><small>Sin distracciones</small></span></div>
+      </div>
+    </section>
+
+    <section class="book-intro page-view" aria-labelledby="storyTitle">
+      <div class="section-heading">
+        <div><p class="eyebrow">LA HISTORIA</p><h2 id="storyTitle">Una historia por descubrir.</h2></div>
+        <span class="chapter-count" id="chapterCount">1 capítulo disponible</span>
+      </div>
+      <div class="story-panel glass">
+        <div class="story-symbol" aria-hidden="true">✳</div>
+        <div class="story-copy">
+          <p class="story-kicker">CAPÍTULO 01 · COMIENZO</p>
+          <h3>Un despertar de pesadilla</h3>
+          <p>Germán despierta de golpe después de un sueño demasiado real. Su mejor amigo Kazu está ahí, como siempre… aunque esta mañana nada parece estar en su sitio.</p>
+          <p class="provisional-note">Sinopsis breve de presentación basada en el capítulo proporcionado.</p>
+        </div>
+        <button class="round-arrow" id="chapterCardButton" type="button" aria-label="Leer capítulo 1">↗</button>
+      </div>
     </section>
 
     <section class="reader page-view hidden" id="reader" aria-labelledby="readerTitle">
       <div class="reader-toolbar">
-        <button class="back-link" id="backHome" type="button">← <span>Capítulos</span></button>
-        <button class="tool-button" id="readerIndex" type="button" title="Índice de capítulos" aria-label="Índice de capítulos">☷</button>
+        <button class="back-link" id="backHome" type="button">← <span>Volver al inicio</span></button>
+        <div class="reader-tools">
+          <button class="tool-button" id="widthToggle" type="button" title="Cambiar ancho de lectura" aria-label="Cambiar ancho de lectura">↔</button>
+          <button class="tool-button" id="fontDown" type="button" title="Disminuir tamaño de letra" aria-label="Disminuir tamaño de letra">A−</button>
+          <button class="tool-button" id="fontUp" type="button" title="Aumentar tamaño de letra" aria-label="Aumentar tamaño de letra">A+</button>
+          <button class="tool-button" id="readerIndex" type="button" title="Índice de capítulos" aria-label="Índice de capítulos">☷</button>
+        </div>
       </div>
       <div class="progress-wrap" aria-label="Progreso del capítulo">
         <div class="progress-label"><span id="progressChapter">CAPÍTULO 01</span><span id="progressPercent">0%</span></div>
@@ -56,16 +102,6 @@
       </article>
     </section>
   </main>
-
-  <div class="reader-control-dock glass" id="readerControlDock" aria-label="Controles de lectura" aria-hidden="true">
-    <button class="dock-button" id="fontDown" type="button" title="Disminuir tamaño de letra" aria-label="Disminuir tamaño de letra">A−</button>
-    <span class="dock-divider" aria-hidden="true"></span>
-    <button class="dock-button" id="fontUp" type="button" title="Aumentar tamaño de letra" aria-label="Aumentar tamaño de letra">A+</button>
-    <span class="dock-divider" aria-hidden="true"></span>
-    <button class="dock-button" id="widthToggle" type="button" title="Cambiar ancho de lectura" aria-label="Cambiar ancho de lectura">↔</button>
-    <span class="dock-divider" aria-hidden="true"></span>
-    <button class="dock-button theme-dock-button" id="themeToggle" type="button" aria-label="Activar modo claro" title="Cambiar tema"><span id="themeIcon">☼</span></button>
-  </div>
 
   <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
   <aside class="chapter-drawer glass" id="chapterDrawer" aria-labelledby="drawerTitle" aria-hidden="true">

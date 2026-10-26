@@ -2,8 +2,8 @@
   "use strict";
   const chapters = Array.isArray(window.NOVEL_CHAPTERS) ? window.NOVEL_CHAPTERS : [];
   const $ = (id) => document.getElementById(id);
-  const state = { chapterIndex: 0, fontSize: 19, wide: false, toastTimer: null, lastScrollY: 0 };
-  const STORAGE_KEY = "animeUruguay.reader.v1";
+  const state = { chapterIndex: 0, fontSize: 19, wide: false, toastTimer: null };
+  const STORAGE_KEY = "entrePaginas.reader.v1";
   let saved = {};
   try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); } catch (_) { saved = {}; }
 
@@ -12,7 +12,6 @@
   const drawer = $("chapterDrawer");
   const backdrop = $("drawerBackdrop");
   const content = $("chapterContent");
-  const dock = $("readerControlDock");
 
   function save(extra = {}) {
     const payload = { ...saved, chapterIndex: state.chapterIndex, fontSize: state.fontSize, wide: state.wide, ...extra };
@@ -66,6 +65,7 @@
     $("previousChapter").querySelector("strong").textContent = state.chapterIndex === 0 ? "Primer capítulo" : chapters[state.chapterIndex - 1].title;
     $("nextChapter").disabled = state.chapterIndex >= chapters.length - 1;
     $("nextChapter").querySelector("strong").textContent = state.chapterIndex >= chapters.length - 1 ? "Próximamente" : chapters[state.chapterIndex + 1].title;
+    $("chapterCount").textContent = chapters.length + (chapters.length === 1 ? " capítulo disponible" : " capítulos disponibles");
     renderIndex();
     document.documentElement.style.setProperty("--reading-size", state.fontSize + "px");
     $("readingColumn").classList.toggle("wide", state.wide);
@@ -77,35 +77,16 @@
   function showReader(index = state.chapterIndex, restorePosition = false) {
     homeSections.forEach(s => s.classList.add("hidden"));
     reader.classList.remove("hidden");
-    dock.classList.add("visible");
-    dock.classList.remove("compact");
-    dock.setAttribute("aria-hidden", "false");
     renderChapter(index, restorePosition);
-    state.lastScrollY = window.scrollY;
     $("readerTitle").focus?.({ preventScroll: true });
   }
   function showHome() {
     reader.classList.add("hidden");
-    dock.classList.remove("visible", "compact");
-    dock.setAttribute("aria-hidden", "true");
     homeSections.forEach(s => s.classList.remove("hidden"));
     closeDrawer();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
   function renderIndex() {
-    const homeList = $("homeChapterList");
-    if (homeList) {
-      homeList.replaceChildren();
-      chapters.forEach((chapter, i) => {
-        const card = document.createElement("button");
-        card.type = "button";
-        card.className = "home-chapter-card";
-        card.innerHTML = `<span class="home-chapter-number">${String(chapter.id).padStart(2, "0")}</span><span class="home-chapter-copy"><small>CAPÍTULO ${String(chapter.id).padStart(2, "0")}</small><strong></strong></span><span class="home-chapter-arrow" aria-hidden="true">↗</span>`;
-        card.querySelector("strong").textContent = chapter.title;
-        card.addEventListener("click", () => showReader(i));
-        homeList.appendChild(card);
-      });
-    }
     const list = $("chapterList"); list.replaceChildren();
     chapters.forEach((chapter, i) => {
       const button = document.createElement("button");
@@ -126,6 +107,12 @@
     backdrop.hidden = true; document.body.style.overflow = "";
   }
 
+  $("startReading").addEventListener("click", () => {
+    const idx = Number.isInteger(saved.chapterIndex) ? saved.chapterIndex : 0;
+    showReader(Math.max(0, Math.min(idx, chapters.length - 1)), idx === saved.chapterIndex && Number.isFinite(saved.scrollY));
+  });
+  $("chapterCardButton").addEventListener("click", () => showReader(0));
+  $("browseChapters").addEventListener("click", openDrawer);
   $("openIndex").addEventListener("click", openDrawer);
   $("readerIndex").addEventListener("click", openDrawer);
   $("closeIndex").addEventListener("click", closeDrawer);
@@ -137,14 +124,7 @@
   $("fontUp").addEventListener("click", () => { state.fontSize = Math.min(26, state.fontSize + 1); document.documentElement.style.setProperty("--reading-size", state.fontSize + "px"); save({ fontSize: state.fontSize }); toast("Tamaño de letra: " + state.fontSize + " px"); });
   $("widthToggle").addEventListener("click", () => { state.wide = !state.wide; $("readingColumn").classList.toggle("wide", state.wide); save({ wide: state.wide }); toast(state.wide ? "Área de lectura amplia" : "Área de lectura cómoda"); });
   $("themeToggle").addEventListener("click", () => setTheme(document.body.classList.contains("light") ? "dark" : "light"));
-  window.addEventListener("scroll", () => {
-    updateProgress();
-    if (reader.classList.contains("hidden")) return;
-    const currentY = window.scrollY;
-    if (currentY > state.lastScrollY + 5 && currentY > 100) dock.classList.add("compact");
-    else if (currentY < state.lastScrollY - 5) dock.classList.remove("compact");
-    state.lastScrollY = currentY;
-  }, { passive: true });
+  window.addEventListener("scroll", updateProgress, { passive: true });
   window.addEventListener("resize", updateProgress);
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") closeDrawer();
