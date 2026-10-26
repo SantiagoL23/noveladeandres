@@ -55,3 +55,4 @@ El catálogo se define en `chapters.js` mediante `window.NOVELS`. Cada novela ti
 Actualmente incluye:
 - **El romance BL de Germán... Con harem!** — capítulos 1 al 4.
 - **Pelusa y las entidades** — capítulo 1, «Pelusa... Debes temer?».
+- **Alexis, el guerrero del cobre** — capítulo 1, «Un isekai re tussi».
