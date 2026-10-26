@@ -110,6 +110,12 @@
       const button = document.createElement("button");
       button.type = "button";
       button.className = "home-novel-card glass" + (i === activeNovelIndex ? " active" : "");
+      button.dataset.novelIndex = String(i);
+      button.setAttribute("aria-label", "Abrir novela: " + novel.title);
+      button.addEventListener("click", () => {
+        selectNovel(i);
+        showReader(0);
+      });
       const icon = document.createElement("span");
       icon.className = "home-novel-symbol";
       icon.textContent = i === 1 ? "☾" : "✦";
@@ -121,15 +127,19 @@
       title.textContent = novel.title;
       const description = document.createElement("span");
       description.textContent = novel.description || "Una historia por descubrir.";
-      copy.append(kicker, title, description);
+      const action = document.createElement("span");
+      action.className = "home-novel-action";
+      action.textContent = "Leer novela →";
+      copy.append(kicker, title, description, action);
       const mark = document.createElement("span");
       mark.className = "home-novel-check";
       mark.textContent = i === activeNovelIndex ? "✓" : "↗";
       button.append(icon, copy, mark);
-      button.addEventListener("click", () => { selectNovel(i); showReader(0); });
       list.appendChild(button);
     });
   }
+
+
   function renderHomeChapters() {
     const list = $("homeChapterList");
     if (!list) return;
@@ -187,6 +197,10 @@
     showReader(Math.max(0, Math.min(idx, chapters.length - 1)), idx === saved.chapterIndex && Number.isFinite(saved.scrollY));
   });
   $("browseChapters").addEventListener("click", openDrawer);
+  $("browseNovels").addEventListener("click", () => {
+    showHome();
+    $("biblioteca").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+  });
   $("openIndex").addEventListener("click", openDrawer);
   $("readerIndex").addEventListener("click", openDrawer);
   $("closeIndex").addEventListener("click", closeDrawer);

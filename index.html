@@ -22,6 +22,7 @@
       <button class="icon-button" id="themeToggle" type="button" aria-label="Cambiar tema" title="Cambiar tema"><span id="themeIcon">☼</span></button>
       <button class="icon-button" id="openIndex" type="button" aria-label="Abrir índice de capítulos" title="Índice de capítulos">☷</button>
       <a class="top-link" href="#inicio">Inicio</a>
+      <a class="top-link" href="#biblioteca">Biblioteca</a>
     </nav>
   </header>
 
@@ -33,6 +34,7 @@
         <p class="hero-description">Un espacio para bajar el ritmo, dejar afuera el ruido y perderse un rato en una buena historia.</p>
         <div class="hero-buttons">
           <button class="primary-button" id="startReading" type="button">Comenzar a leer <span aria-hidden="true">↗</span></button>
+          <button class="secondary-button" id="browseNovels" type="button">Ver todas las novelas</button>
           <button class="secondary-button" id="browseChapters" type="button">Explorar capítulos</button>
         </div>
         <div class="hero-meta">
@@ -56,9 +58,9 @@
       </div>
     </section>
 
-    <section class="book-intro page-view" aria-labelledby="storyTitle">
+    <section class="book-intro page-view" id="biblioteca" aria-labelledby="storyTitle">
       <div class="section-heading">
-        <div><p class="eyebrow">BIBLIOTECA</p><h2 id="storyTitle">Elige tu próxima historia.</h2></div>
+        <div><p class="eyebrow">BIBLIOTECA DE NOVELAS</p><h2 id="storyTitle">Elige qué historia leer.</h2><p class="library-description">Cada tarjeta abre una novela y sus propios capítulos.</p></div>
         <span class="chapter-count" id="chapterCount">2 novelas disponibles</span>
       </div>
       <div class="home-novel-grid" id="homeNovelList" aria-label="Catálogo de novelas"></div>
@@ -71,7 +73,7 @@
 
     <section class="reader page-view hidden" id="reader" aria-labelledby="readerTitle">
       <div class="reader-toolbar">
-        <button class="back-link" id="backHome" type="button">← <span>Volver al inicio</span></button>
+        <button class="back-link" id="backHome" type="button">← <span>Biblioteca de novelas</span></button>
         <div class="reader-tools">
           <button class="tool-button" id="widthToggle" type="button" title="Cambiar ancho de lectura" aria-label="Cambiar ancho de lectura">↔</button>
           <button class="tool-button" id="fontDown" type="button" title="Disminuir tamaño de letra" aria-label="Disminuir tamaño de letra">A−</button>

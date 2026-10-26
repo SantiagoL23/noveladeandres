@@ -31,3 +31,15 @@ button,a{-webkit-tap-highlight-color:transparent}button{font:inherit;color:inher
 .home-novel-check{flex:0 0 30px;display:grid;place-items:center;width:30px;height:30px;border:1px solid var(--line);border-radius:50%;font-size:14px;color:var(--accent2)}
 .chapter-section-heading{margin-top:8px}
 @media(max-width:650px){.home-novel-grid{grid-template-columns:1fr;gap:11px;margin-bottom:32px}.home-novel-card{padding:16px;gap:13px}.home-novel-symbol{flex-basis:42px;height:46px}.home-novel-copy strong{font-size:14px}}
+
+/* Acción visible para abrir cada novela */
+.home-novel-action{display:inline-flex;align-self:flex-start;margin-top:5px;padding:7px 11px;border-radius:999px;background:rgba(200,182,255,.14);border:1px solid var(--line);font-size:11px;font-weight:700;color:var(--accent2)}
+.home-novel-card:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+
+/* Biblioteca visible y fácil de encontrar desde la portada */
+.library-description{color:var(--muted);font-size:13px;line-height:1.6;margin:10px 0 0;max-width:560px}
+#biblioteca{scroll-margin-top:105px}
+.home-novel-card{position:relative;min-height:142px}
+.home-novel-card:active{transform:scale(.99)}
+@media(max-width:520px){.library-description{font-size:12px}.home-novel-card{min-height:unset}}
