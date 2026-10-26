@@ -72,19 +72,7 @@
     </section>
 
     <section class="reader page-view hidden" id="reader" aria-labelledby="readerTitle">
-      <div class="reader-toolbar">
-        <button class="back-link" id="backHome" type="button">← <span>Biblioteca de novelas</span></button>
-        <div class="reader-tools">
-          <button class="tool-button" id="widthToggle" type="button" title="Cambiar ancho de lectura" aria-label="Cambiar ancho de lectura">↔</button>
-          <button class="tool-button" id="fontDown" type="button" title="Disminuir tamaño de letra" aria-label="Disminuir tamaño de letra">A−</button>
-          <button class="tool-button" id="fontUp" type="button" title="Aumentar tamaño de letra" aria-label="Aumentar tamaño de letra">A+</button>
-          <button class="tool-button" id="readerIndex" type="button" title="Índice de capítulos" aria-label="Índice de capítulos">☷</button>
-        </div>
-      </div>
-      <div class="progress-wrap" aria-label="Progreso del capítulo">
-        <div class="progress-label"><span id="progressChapter">CAPÍTULO 01</span><span id="progressPercent">0%</span></div>
-        <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
-      </div>
+      <div class="reader-toolbar reader-toolbar-spacer" aria-hidden="true"></div>
       <article class="reading-column" id="readingColumn">
         <header class="chapter-heading">
           <p class="eyebrow">CAPÍTULO <span id="chapterNumber">01</span></p>
@@ -101,6 +89,16 @@
     </section>
   </main>
 
+  <nav class="reader-floating-bar" id="readerFloatingBar" aria-label="Controles de lectura">
+    <button class="floating-tool" id="widthToggle" type="button" title="Ampliar o reducir el ancho de lectura" aria-label="Ampliar o reducir el ancho de lectura"><span class="floating-icon">↔</span><span class="floating-label">Ancho</span></button>
+    <button class="floating-tool" id="fontDown" type="button" title="Achicar letra" aria-label="Achicar letra"><span class="floating-icon">A−</span><span class="floating-label">Letra</span></button>
+    <button class="floating-tool" id="fontUp" type="button" title="Agrandar letra" aria-label="Agrandar letra"><span class="floating-icon">A+</span><span class="floating-label">Letra</span></button>
+    <button class="floating-tool" id="readerIndex" type="button" title="Abrir índice de capítulos" aria-label="Abrir índice de capítulos"><span class="floating-icon">☷</span><span class="floating-label">Índice</span></button>
+    <div class="floating-progress" aria-label="Progreso del capítulo">
+      <div class="floating-progress-label"><span id="progressChapter">CAP. 01</span><strong id="progressPercent">0%</strong></div>
+      <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+    </div>
+  </nav>
   <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
   <aside class="chapter-drawer glass" id="chapterDrawer" aria-labelledby="drawerTitle" aria-hidden="true">
     <div class="drawer-head"><div><p class="eyebrow">TU RECORRIDO</p><h2 id="drawerTitle">Índice</h2></div><button class="icon-button" id="closeIndex" type="button" aria-label="Cerrar índice">×</button></div>

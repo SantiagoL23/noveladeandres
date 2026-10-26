@@ -14,6 +14,8 @@
   const drawer = $("chapterDrawer");
   const backdrop = $("drawerBackdrop");
   const content = $("chapterContent");
+  const floatingBar = $("readerFloatingBar");
+  let lastScrollY = window.scrollY;
 
   function save(extra = {}) {
     const payload = { ...saved, activeNovelIndex, chapterIndex: state.chapterIndex, fontSize: state.fontSize, wide: state.wide, ...extra };
@@ -79,11 +81,15 @@
   function showReader(index = state.chapterIndex, restorePosition = false) {
     homeSections.forEach(s => s.classList.add("hidden"));
     reader.classList.remove("hidden");
+    floatingBar.classList.remove("compact");
+    floatingBar.classList.add("expanded");
+    lastScrollY = window.scrollY;
     renderChapter(index, restorePosition);
     $("readerTitle").focus?.({ preventScroll: true });
   }
   function showHome() {
     reader.classList.add("hidden");
+    floatingBar.classList.remove("compact", "expanded");
     homeSections.forEach(s => s.classList.remove("hidden"));
     closeDrawer();
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -214,7 +220,21 @@
   $("fontUp").addEventListener("click", () => { state.fontSize = Math.min(26, state.fontSize + 1); document.documentElement.style.setProperty("--reading-size", state.fontSize + "px"); save({ fontSize: state.fontSize }); toast("Tamaño de letra: " + state.fontSize + " px"); });
   $("widthToggle").addEventListener("click", () => { state.wide = !state.wide; $("readingColumn").classList.toggle("wide", state.wide); save({ wide: state.wide }); toast(state.wide ? "Área de lectura amplia" : "Área de lectura cómoda"); });
   $("themeToggle").addEventListener("click", () => setTheme(document.body.classList.contains("light") ? "dark" : "light"));
-  window.addEventListener("scroll", updateProgress, { passive: true });
+  window.addEventListener("scroll", () => {
+    const currentY = window.scrollY;
+    const delta = currentY - lastScrollY;
+    if (!reader.classList.contains("hidden") && Math.abs(delta) > 3) {
+      if (delta > 0 && currentY > 100) {
+        floatingBar.classList.add("compact");
+        floatingBar.classList.remove("expanded");
+      } else if (delta < 0) {
+        floatingBar.classList.remove("compact");
+        floatingBar.classList.add("expanded");
+      }
+    }
+    lastScrollY = currentY;
+    updateProgress();
+  }, { passive: true });
   window.addEventListener("resize", updateProgress);
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") closeDrawer();

@@ -56,3 +56,9 @@ Actualmente incluye:
 - **El romance BL de Germán... Con harem!** — capítulos 1 al 4.
 - **Pelusa y las entidades** — capítulo 1, «Pelusa... Debes temer?».
 - **Alexis, el guerrero del cobre** — capítulo 1, «Un isekai re tussi».
+
+## Controles de lectura
+
+- Barra flotante Liquid Glass fija en la parte inferior durante la lectura.
+- Incluye ancho de lectura, reducir/aumentar letra, índice de capítulos y progreso.
+- Se compacta al desplazarse hacia abajo y se expande al desplazarse hacia arriba.
